@@ -1,0 +1,137 @@
+<div class="login-shell">
+  <div class="login-card">
+    <div class="login-brand">
+      <div class="brand" style="margin-bottom: 30px">
+        <div class="logo"><mat-icon style="color: #fff">visibility</mat-icon></div>
+        <div>
+          <div style="font-size: 28px; font-weight: 800">Oftalvista</div>
+          <div style="opacity: 0.8; font-size: 12px">Plataforma integral oftalmologica</div>
+        </div>
+      </div>
+      <h2 style="font-size: 28px; font-weight: 800; line-height: 1.2; margin: 0 0 12px">
+        Gestion digital de citas y atencion clinica.
+      </h2>
+      <p style="font-size: 13px; line-height: 1.7; opacity: 0.9; margin: 0 0 24px">
+        Sistema para administracion, mantenimiento de maestros y operaciones clinicas.
+      </p>
+      <div class="grid-2">
+        <div class="mock-feature">
+          <strong>Dashboard ejecutivo</strong>
+          <div style="font-size: 11px; opacity: 0.9; margin-top: 4px">KPIs y accesos rapidos.</div>
+        </div>
+        <div class="mock-feature">
+          <strong>Modales premium</strong>
+          <div style="font-size: 11px; opacity: 0.9; margin-top: 4px">Alta, edicion, detalle.</div>
+        </div>
+        <div class="mock-feature">
+          <strong>Reactive Forms</strong>
+          <div style="font-size: 11px; opacity: 0.9; margin-top: 4px">
+            Validaciones en tiempo real.
+          </div>
+        </div>
+        <div class="mock-feature">
+          <strong>JWT + Guards</strong>
+          <div style="font-size: 11px; opacity: 0.9; margin-top: 4px">Auth segura por roles.</div>
+        </div>
+      </div>
+    </div>
+    <div class="login-panel">
+      <div
+        style="
+          font-size: 11px;
+          color: var(--ov-primary);
+          font-weight: 800;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+        "
+      >
+        Acceso institucional
+      </div>
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 12px;
+          margin-top: 14px;
+          padding: 12px 14px;
+          border-radius: 14px;
+          background: #f6f8fb;
+        "
+      >
+        <div>
+          <div style="font-size: 12px; font-weight: 700">Modo de datos</div>
+          <div style="font-size: 11px; color: #5f6b7a">
+            {{
+              isDemoMode
+                ? 'Usando backend simulado en memoria.'
+                : 'Usando servicios reales del backend.'
+            }}
+          </div>
+        </div>
+        <mat-slide-toggle [checked]="isDemoMode" (change)="onModeChange($event.checked)">
+          Demo
+        </mat-slide-toggle>
+      </div>
+      <h2 style="margin: 10px 0 6px; font-size: 26px; font-weight: 800">Bienvenido</h2>
+      <p class="subtitle" style="margin: 0 0 22px">Ingrese sus credenciales para continuar.</p>
+      <div
+        *ngIf="isDemoMode"
+        style="
+          margin: 0 0 18px;
+          padding: 14px;
+          border-radius: 14px;
+          border: 1px solid rgba(31, 102, 255, 0.16);
+          background: rgba(31, 102, 255, 0.05);
+        "
+      >
+        <div style="font-size: 12px; font-weight: 700; margin-bottom: 8px">Cuentas demo</div>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px">
+          <button
+            *ngFor="let account of demoAccounts"
+            mat-stroked-button
+            type="button"
+            (click)="usarCuentaDemo(account)"
+          >
+            {{ account.label }}
+          </button>
+        </div>
+        <div style="font-size: 11px; color: #5f6b7a">
+          Clave para todas las cuentas: <strong>demo123</strong>
+        </div>
+      </div>
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <mat-form-field appearance="outline" style="width: 100%">
+          <mat-label>Correo electronico</mat-label>
+          <input matInput type="email" formControlName="correo" />
+          <mat-icon matSuffix>mail_outline</mat-icon>
+          <mat-error *ngIf="correo?.hasError('required')">Obligatorio</mat-error>
+          <mat-error *ngIf="correo?.hasError('email')">Correo invalido</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline" style="width: 100%; margin-top: 8px">
+          <mat-label>Contrasena</mat-label>
+          <input matInput [type]="hidePass ? 'password' : 'text'" formControlName="claveHash" />
+          <button mat-icon-button type="button" matSuffix (click)="hidePass = !hidePass">
+            <mat-icon>{{ hidePass ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          <mat-error *ngIf="claveHash?.hasError('required')">Obligatorio</mat-error>
+          <mat-error *ngIf="claveHash?.hasError('minlength')">Minimo 6 caracteres</mat-error>
+        </mat-form-field>
+        <button
+          mat-flat-button
+          color="primary"
+          type="submit"
+          style="width: 100%; height: 50px; margin-top: 16px; font-size: 15px; font-weight: 700"
+          [disabled]="loading"
+        >
+          <mat-spinner
+            *ngIf="loading"
+            diameter="20"
+            style="display: inline-block; margin-right: 8px; vertical-align: middle"
+          ></mat-spinner>
+          {{ loading ? 'Ingresando...' : (isDemoMode ? 'Ingresar en demo' : 'Ingresar al sistema') }}
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

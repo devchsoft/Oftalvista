@@ -1,0 +1,24 @@
+<div class="topbar">
+  <div>
+    <div style="font-weight: 800; font-size: 22px">{{ title }}</div>
+    <div class="subtitle">{{ subtitle }}</div>
+  </div>
+  <div style="display: flex; align-items: center; gap: 10px">
+    <span class="chip" [class.chip-info]="mode.isDemoMode()" [class.chip-off]="!mode.isDemoMode()">
+      {{ mode.isDemoMode() ? 'Demo' : 'Backend' }}
+    </span>
+    <mat-slide-toggle
+      [checked]="mode.isDemoMode()"
+      (change)="onModeChange($event)"
+      matTooltip="Cambiar modo reinicia la sesion actual"
+    >
+      Demo
+    </mat-slide-toggle>
+    <span class="chip chip-info"
+      >{{ auth.getUser()?.nombres }} {{ auth.getUser()?.apellidos }}</span
+    >
+    <button mat-icon-button (click)="auth.logout()" matTooltip="Cerrar sesion">
+      <mat-icon>logout</mat-icon>
+    </button>
+  </div>
+</div>
