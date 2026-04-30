@@ -2,6 +2,20 @@ import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth.guard';
 import { adminGuard } from './core/guards/admin.guard';
 export const routes: Routes = [
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  {
+    path: 'login',
+    loadComponent: () =>
+      import('./modules/auth/login/login.component').then((m) => m.LoginComponent),
+  },
+  {
+    path: 'dashboard/admin',
+    canActivate: [authGuard, adminGuard],
+    loadComponent: () =>
+      import('./modules/dashboard/admin/dashboard-admin.component').then(
+        (m) => m.DashboardAdminComponent,
+      ),
+  },
   {
     path: 'dashboard/paciente',
     canActivate: [authGuard],
@@ -11,20 +25,24 @@ export const routes: Routes = [
       ),
   },
   {
-    path: 'operaciones/pagos',
-    canActivate: [authGuard, adminGuard],
-    loadComponent: () =>
-      import('./modules/pago-cita/list/pago-cita-list.component').then(
-        (m) => m.PagoCitaListComponent,
-      ),
-  },
-<<<<<<< HEAD
-=======
-  {
     path: 'mantenimiento/usuarios',
     canActivate: [authGuard, adminGuard],
     loadComponent: () =>
       import('./modules/usuario/list/usuario-list.component').then((m) => m.UsuarioListComponent),
+  },
+  {
+    path: 'mantenimiento/medicos',
+    canActivate: [authGuard, adminGuard],
+    loadComponent: () =>
+      import('./modules/medico/list/medico-list.component').then((m) => m.MedicoListComponent),
+  },
+  {
+    path: 'mantenimiento/pacientes',
+    canActivate: [authGuard, adminGuard],
+    loadComponent: () =>
+      import('./modules/paciente/list/paciente-list.component').then(
+        (m) => m.PacienteListComponent,
+      ),
   },
   {
     path: 'mantenimiento/agenda-medica',
@@ -35,10 +53,12 @@ export const routes: Routes = [
       ),
   },
   {
-    path: 'mantenimiento/medicos',
+    path: 'operaciones/pagos',
     canActivate: [authGuard, adminGuard],
     loadComponent: () =>
-      import('./modules/medico/list/medico-list.component').then((m) => m.MedicoListComponent),
+      import('./modules/pago-cita/list/pago-cita-list.component').then(
+        (m) => m.PagoCitaListComponent,
+      ),
   },
   {
     path: 'operaciones/historial',
@@ -48,6 +68,13 @@ export const routes: Routes = [
         (m) => m.HistorialCitaListComponent,
       ),
   },
+  {
+    path: 'operaciones/recordatorios',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./modules/recordatorio-cita/list/recordatorio-cita-list.component').then(
+        (m) => m.RecordatorioCitaListComponent,
+      ),
+  },
   { path: '**', redirectTo: 'login' },
->>>>>>> 94e1c74f5049bb8d321d4e18ca8ff0590c66e995
 ];
